@@ -36,7 +36,7 @@ const navItems = ref([
       variant="outline"
       icon="ph:identification-card"
     >
-      {{ user.name }}
+      {{ user?.name }}
     </UButton>
     <UDropdownMenu
       :items="navItems"

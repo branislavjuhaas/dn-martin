@@ -23,7 +23,8 @@ const tournament = ref<TournamentInput>({
  * 3. Extracts Debater Name (Col 1) and Surname (Col 2).
  *    - If Col 2 is empty, assumes Col 1 contains full name and attempts to split it.
  */
-const onFileChange = async (file: File) => {
+const onFileChange = async (file: File | null | undefined) => {
+  if (!file) return;
   const data = await file.arrayBuffer();
   const workbook = XLSX.read(data, { type: 'array' });
   const firstSheetName = workbook.SheetNames?.[0];
@@ -32,9 +33,11 @@ const onFileChange = async (file: File) => {
     return;
   }
   const sheet = workbook.Sheets[firstSheetName];
+  if (!sheet) {
+    console.warn('Sheet not found');
+    return;
+  }
   const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as Array<Array<string>>;
-
-  // console.log(rows); // Debbuging
 
   let team = '';
   const teams: Team[] = [];
@@ -79,6 +82,7 @@ const onFileChange = async (file: File) => {
     };
 
     if (existingTeam) {
+      existingTeam.debaters = existingTeam.debaters ?? [];
       existingTeam.debaters.push(debater);
     } else {
       teams.push({
