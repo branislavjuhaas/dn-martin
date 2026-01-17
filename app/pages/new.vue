@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UButton } from '#components';
+import { AppTextDialog, UButton } from '#components';
 import type { Debater, Team, TournamentInput } from '#shared/types';
 import type { TableColumn } from '#ui/components/Table.vue';
 import * as XLSX from 'xlsx';
@@ -12,6 +12,8 @@ useSeoMeta({
   title: 'Vytvoriť nové podujatie',
   description: 'Vytvorte nové debátne podujatie na platforme Fastballot.'
 });
+
+const overlay = useOverlay();
 
 const tournament = ref<TournamentInput>({
   tournament_id: '',
@@ -133,6 +135,36 @@ const columns: TableColumn<Team>[] = [
         ? debaters.map(d => `${d.name} ${d.surname}`).join(', ')
         : String(debaters ?? '');
     }
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) =>
+      h('div', { class: 'flex flex-row gap-1' }, [
+        h(UButton, {
+          square: true,
+          icon: 'ph:pencil-simple',
+          size: 'sm',
+          variant: 'subtle',
+          color: 'info',
+          onClick: () => editTeam(row.original as Team)
+        }),
+        h(UButton, {
+          square: true,
+          icon: 'ph:user-plus',
+          size: 'sm',
+          variant: 'subtle',
+          color: 'success',
+          onClick: () => addDebater(row.original as Team)
+        }),
+        h(UButton, {
+          square: true,
+          icon: 'ph:trash',
+          size: 'sm',
+          variant: 'subtle',
+          color: 'error',
+          onClick: () => removeTeam(row.original as Team)
+        })
+      ])
   }
 ];
 
@@ -153,6 +185,78 @@ const createEvent = async () => {
   }
 
   await navigateTo('/');
+};
+
+const removeDebater = (debater: Debater, team: Team) => {
+  team.debaters = team.debaters?.filter(d => d !== debater);
+};
+
+const removeTeam = (team: Team) => {
+  tournament.value.teams = tournament.value.teams.filter(t => t !== team);
+};
+
+const editTeam = async (team: Team) => {
+  const dialog = overlay.create(AppTextDialog, {
+    props: {
+      title: 'Upraviť názov tímu',
+      inputLabel: 'Názov tímu',
+      text: team.name,
+      placeholder: 'Zadajte nový názov tímu'
+    }
+  });
+
+  team.name = (await dialog.open()).toUpperCase();
+};
+
+const addTeam = async () => {
+  const dialog = overlay.create(AppTextDialog, {
+    props: {
+      title: 'Pridať nový tím',
+      inputLabel: 'Názov tímu',
+      text: '',
+      placeholder: 'Zadajte názov tímu'
+    }
+  });
+
+  tournament.value.teams.push({
+    name: (await dialog.open()).toUpperCase(),
+    debaters: []
+  });
+};
+
+const editDebater = async (debater: Debater) => {
+  const dialog = overlay.create(AppTextDialog, {
+    props: {
+      title: `Upraviť rečníka/-čku ${debater.name} ${debater.surname}`,
+      inputLabel: 'Meno a priezvisko rečníka/-čku',
+      text: `${debater.name} ${debater.surname}`,
+      placeholder: 'Zadajte meno a priezvisko rečníka/-čku'
+    }
+  });
+
+  const fullName = (await dialog.open()).trim();
+
+  debater.name = fullName.split(' ').slice(0, -1).join(' ') || fullName;
+  debater.surname = fullName.split(' ').slice(-1).join('');
+};
+
+const addDebater = async (team: Team) => {
+  const dialog = overlay.create(AppTextDialog, {
+    props: {
+      title: `Pridať nového rečníka/-čku do tímu ${team.name}`,
+      inputLabel: 'Meno a priezvisko rečníka/-čku',
+      text: '',
+      placeholder: 'Zadajte meno a priezvisko rečníka/-čku'
+    }
+  });
+
+  const fullName = (await dialog.open()).trim();
+
+  team.debaters?.push({
+    name: fullName.split(' ').slice(0, -1).join(' ') || fullName,
+    surname: fullName.split(' ').slice(-1).join(''),
+    team: team.name
+  });
 };
 
 const expanded = ref({});
@@ -194,6 +298,16 @@ const state = reactive<{ file?: File }>({
       <UFormField label="Názov podujatia" class="w-full mb-4" :ui="{ label: 'ml-4' }">
         <UInput v-model="tournament.tournament_name" placeholder="Zadajte názov podujatia" class="w-full" />
       </UFormField>
+      <div class="flex flex-row justify-end">
+        <UButton
+          color="primary"
+          variant="outline"
+          class="mt-4 self-end"
+          @click="addTeam"
+        >
+          Vytvoriť nový tím
+        </UButton>
+      </div>
       <UTable
         v-model:expanded="expanded"
         :data="tournament?.teams"
@@ -211,7 +325,7 @@ const state = reactive<{ file?: File }>({
                   size="sm"
                   variant="ghost"
                   color="error"
-                  disabled
+                  @click="removeDebater(debater, row.original as Team)"
                 />
                 <UButton
                   square
@@ -219,7 +333,7 @@ const state = reactive<{ file?: File }>({
                   size="sm"
                   variant="ghost"
                   color="info"
-                  disabled
+                  @click="editDebater(debater, row.original as Team)"
                 />
               </div>
             </div>

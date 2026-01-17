@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // 4. Verify Authorization (Admin Role)
-  if (user.role !== 'admin') {
+  if (!['admin', 'tabmaster'].includes(user.role)) {
     throw createError({ statusCode: 403, statusMessage: 'You do not have permission to access this page' });
   }
 
