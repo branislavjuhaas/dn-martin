@@ -7,7 +7,7 @@ import AppHeader from '~/components/header/AppHeader.vue';
     <AppHeader />
 
     <UPage>
-      <UMain>
+      <UMain class="flex flex-col items-center justify-center">
         <NuxtPage />
       </UMain>
     </UPage>

@@ -72,12 +72,12 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <div class="flex flex-col my-auto items-center justify-center gap-4 p-4">
-    <UPageCard class="w-full max-w-md">
+  <div class="flex flex-col gap-4 w-full items-center">
+    <UPageCard class="w-full max-w-100">
       <UAuthForm
         :schema="schema"
         title="Prihlásenie účtom Fastballot"
-        description="Zadajte svoj email a heslo pre prihlásenie"
+        description="Zadajte prihlasovacie údaje pre prístup k účtu!"
         :submit="{ label: 'Prihlásiť sa' }"
         icon="i-lucide-user"
         :fields="fields"
