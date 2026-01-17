@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { UButton } from '#components';
-import type { Debater } from '#shared/types';
+import type { Debater, Team } from '#shared/types';
+import type { TableColumn } from '#ui/components/Table.vue';
 
 const { data } = await useFetch('/api/tournament', {
   method: 'GET'
 });
 
-const columns: TableColumn<Payment>[] = [
+const columns: TableColumn<Team>[] = [
   {
     id: 'expand',
     cell: ({ row }) =>
@@ -52,7 +53,7 @@ const expanded = ref({});
 <template>
   <UPageBody>
     <UContainer>
-      <UBadge color="info" variant="subtle" class="mb-1">
+      <UBadge color="primary" variant="subtle" class="mb-1">
         Práve prebieha
       </UBadge>
       <div class="flex flex-row items-center justify-between gap-4 mb-8">
