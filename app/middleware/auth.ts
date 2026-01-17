@@ -1,4 +1,10 @@
-export default defineNuxtRouteMiddleware((_to, _from) => {
+export default defineNuxtRouteMiddleware(async () => {
+  // SERVER SIDE
+  if (import.meta.server) {
+    return;
+  }
+
+  // CLIENT SIDE
   const { loggedIn } = useUserSession();
 
   if (!loggedIn.value) {
