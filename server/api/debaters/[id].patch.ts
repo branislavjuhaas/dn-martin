@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   const { id } = event.context.params as { id: string };
 
   // 2. Update Team Name
-  await db.query<ResultSetHeader>('UPDATE teams SET name = ?, surname = ? WHERE id = ?', [body.name, body.surname, id]);
+  await db.query<ResultSetHeader>('UPDATE debaters SET name = ?, surname = ? WHERE id = ?', [body.name, body.surname, id]);
 
   return { success: true, statusCode: 200, statusMessage: 'OK', debater: { id, name: body.name, surname: body.surname } };
 });
