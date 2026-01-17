@@ -4,6 +4,9 @@ import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui';
 
 const { fetch } = useUserSession();
 
+/**
+ * Login form field configuration
+ */
 const fields: AuthFormField[] = [{
   name: 'username',
   type: 'text',
@@ -18,6 +21,9 @@ const fields: AuthFormField[] = [{
   required: true
 }];
 
+/**
+ * Validation schema for the login form
+ */
 const schema = z.object({
   username: z.string('Zadajte používateľské meno'),
   password: z.string('Zadajte heslo')
@@ -27,6 +33,10 @@ type Schema = z.output<typeof schema>;
 
 const error = ref<string | null>(null);
 
+/**
+ * Handle login submission.
+ * Helper returns proper error messages for specific status codes.
+ */
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
   const result = await $fetch<{ success: boolean; statusCode: number; statusMessage?: string }>('/api/auth', {
     method: 'POST',

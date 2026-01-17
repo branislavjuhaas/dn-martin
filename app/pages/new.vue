@@ -14,6 +14,15 @@ const tournament = ref<TournamentInput>({
   teams: []
 });
 
+/**
+ * Handles file upload and parses Excel data.
+ *
+ * Logic:
+ * 1. Reads the first sheet of the uploaded workbook.
+ * 2. Iterates rows to find Team Name (Col 0).
+ * 3. Extracts Debater Name (Col 1) and Surname (Col 2).
+ *    - If Col 2 is empty, assumes Col 1 contains full name and attempts to split it.
+ */
 const onFileChange = async (file: File) => {
   const data = await file.arrayBuffer();
   const workbook = XLSX.read(data, { type: 'array' });
@@ -25,12 +34,13 @@ const onFileChange = async (file: File) => {
   const sheet = workbook.Sheets[firstSheetName];
   const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as Array<Array<string>>;
 
-  console.log(rows);
+  // console.log(rows); // Debbuging
 
   let team = '';
   const teams: Team[] = [];
 
   for (const row of rows) {
+    // If column A has a value, update the current team context
     if (row[0]) {
       team = row[0];
     }
@@ -50,10 +60,12 @@ const onFileChange = async (file: File) => {
     let nameVal = '';
     let surnameVal = '';
 
+    // Handle Name/Surname splitting logic
     if (col2) {
       nameVal = col1;
       surnameVal = String(col2);
     } else {
+      // Fallback: Split full name by spaces. Last part becomes surname.
       const parts = col1.split(/\s+/).filter(Boolean);
       nameVal = parts.slice(0, -1).join(' ') || parts[0] || '';
       surnameVal = parts.slice(-1).join('') || '';
@@ -115,6 +127,9 @@ const columns: TableColumn<Team>[] = [
   }
 ];
 
+/**
+ * POST the new tournament data to the API.
+ */
 const createEvent = async () => {
   const result = await $fetch('/api/tournament', {
     method: 'POST',

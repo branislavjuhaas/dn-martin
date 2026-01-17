@@ -3,6 +3,10 @@ import { UButton } from '#components';
 import type { Debater, Team } from '#shared/types';
 import type { TableColumn } from '#ui/components/Table.vue';
 
+/**
+ * Dashboard/Home page.
+ * Displays the currently active tournament and its registered teams.
+ */
 definePageMeta({
   middleware: ['auth']
 });
@@ -11,6 +15,10 @@ const { data } = await useFetch('/api/tournament', {
   method: 'GET'
 });
 
+/**
+ * Table column definitions for the Team list.
+ * Includes expander logic and a custom cell formatter for debater names.
+ */
 const columns: TableColumn<Team>[] = [
   {
     id: 'expand',
