@@ -4,7 +4,15 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxt/a11y',
-    '@nuxt/hints'
+    '@nuxt/hints',
+    'nuxt-auth-utils'
+  ],
+
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false
+    }
   ],
 
   devtools: {
@@ -27,4 +35,4 @@ export default defineNuxtConfig({
       }
     }
   }
-})
+});
