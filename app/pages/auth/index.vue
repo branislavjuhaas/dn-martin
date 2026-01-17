@@ -72,8 +72,8 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 w-full items-center">
-    <UPageCard class="w-full max-w-100">
+  <div class="flex flex-col gap-4 w-full items-center pt-16">
+    <UPageCard class="w-full max-w-104">
       <UAuthForm
         :schema="schema"
         title="Prihlásenie účtom Fastballot"
