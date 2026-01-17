@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/a11y',
     '@nuxt/hints',
-    'nuxt-auth-utils'
+    'nuxt-auth-utils',
+    'v-gsap-nuxt'
   ],
 
   components: [

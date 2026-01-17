@@ -73,7 +73,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 
 <template>
   <div class="flex flex-col gap-4 w-full items-center pt-16">
-    <UPageCard class="w-full max-w-104">
+    <UPageCard v-gsap.from="{ scale: 0.8, y: 10, opacity: 0.9 }" class="w-full max-w-104">
       <UAuthForm
         :schema="schema"
         title="Prihlásenie účtom Fastballot"
