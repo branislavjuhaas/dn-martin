@@ -102,6 +102,10 @@ const onFileChange = async (file: File | null | undefined) => {
   tournament.value.teams = teams;
 };
 
+/**
+ * Table column definitions for the Team list.
+ * Includes expander logic, team name, debater list, and action buttons.
+ */
 const columns: TableColumn<Team>[] = [
   {
     id: 'expand',
@@ -170,6 +174,7 @@ const columns: TableColumn<Team>[] = [
 
 /**
  * POST the new tournament data to the API.
+ * Redirects to index page on success.
  */
 const createEvent = async () => {
   const result = await $fetch('/api/tournament', {
@@ -187,14 +192,23 @@ const createEvent = async () => {
   await navigateTo('/');
 };
 
+/**
+ * Removes a specific debater from a team in the local state (before save).
+ */
 const removeDebater = (debater: Debater, team: Team) => {
   team.debaters = team.debaters?.filter(d => d !== debater);
 };
 
+/**
+ * Removes a team from the local tournament state (before save).
+ */
 const removeTeam = (team: Team) => {
   tournament.value.teams = tournament.value.teams.filter(t => t !== team);
 };
 
+/**
+ * Opens a dialog to edit a team name in the local state.
+ */
 const editTeam = async (team: Team) => {
   const dialog = overlay.create(AppTextDialog, {
     props: {
@@ -208,6 +222,9 @@ const editTeam = async (team: Team) => {
   team.name = (await dialog.open()).toUpperCase();
 };
 
+/**
+ * Opens a dialog to create a new team in the local state.
+ */
 const addTeam = async () => {
   const dialog = overlay.create(AppTextDialog, {
     props: {
@@ -224,6 +241,10 @@ const addTeam = async () => {
   });
 };
 
+/**
+ * Opens a dialog to edit a debater's name/surname in the local state.
+ * Splits the input string into name and surname.
+ */
 const editDebater = async (debater: Debater) => {
   const dialog = overlay.create(AppTextDialog, {
     props: {
@@ -240,6 +261,9 @@ const editDebater = async (debater: Debater) => {
   debater.surname = fullName.split(' ').slice(-1).join('');
 };
 
+/**
+ * Opens a dialog to add a new debater to a team in the local state.
+ */
 const addDebater = async (team: Team) => {
   const dialog = overlay.create(AppTextDialog, {
     props: {
@@ -321,19 +345,18 @@ const state = reactive<{ file?: File }>({
               <span>{{ debater.name }} {{ debater.surname }}</span> <div class="flex flex-row gap-1">
                 <UButton
                   square
+                  icon="ph:pencil-simple"
+                  size="sm"
+                  variant="ghost"
+                  color="info"
+                  @click="editDebater(debater)"
+                /><UButton
+                  square
                   icon="ph:trash"
                   size="sm"
                   variant="ghost"
                   color="error"
                   @click="removeDebater(debater, row.original as Team)"
-                />
-                <UButton
-                  square
-                  icon="ph:pencil-simple"
-                  size="sm"
-                  variant="ghost"
-                  color="info"
-                  @click="editDebater(debater, row.original as Team)"
                 />
               </div>
             </div>
