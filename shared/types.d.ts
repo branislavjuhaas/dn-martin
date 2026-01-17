@@ -18,6 +18,7 @@ export type Tournament = {
 };
 
 export type TournamentInput = {
+  tournament_id?: string;
   tournament_name: string;
   teams: Team[];
 };
@@ -30,7 +31,7 @@ export type Team = {
 
 export type Debater = {
   id?: number;
-  team: string;
+  team?: string;
   name: string;
   surname: string;
 };

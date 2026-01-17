@@ -6,7 +6,7 @@ const { loggedIn } = useUserSession();
   <UHeader :toggle="false">
     <template #left>
       <NuxtLink to="/">
-        <AppLogo class="h-8 w-auto" />
+        <AppLogo class="h-7 w-auto" />
       </NuxtLink>
     </template>
     <template #right>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { UButton } from '#components';
-import type { Debater, Team } from '#shared/types';
+import type { Debater, Team, TournamentInput } from '#shared/types';
 import type { TableColumn } from '#ui/components/Table.vue';
 import * as XLSX from 'xlsx';
 
@@ -9,6 +9,7 @@ definePageMeta({
 });
 
 const tournament = ref<TournamentInput>({
+  tournament_id: '',
   tournament_name: '',
   teams: []
 });
@@ -163,7 +164,10 @@ const state = reactive<{ file?: File }>({
           </p>
         </UFileUpload>
       </div>
-      <UFormField label="Názov podujatia" class="w-full" :ui="{ label: 'ml-4' }">
+      <UFormField label="ID podujatia (napr. SS271)" class="w-full mb-4" :ui="{ label: 'ml-4' }">
+        <UInput v-model="tournament.tournament_id" placeholder="Zadajte id podujatia" class="w-full" />
+      </UFormField>
+      <UFormField label="Názov podujatia" class="w-full mb-4" :ui="{ label: 'ml-4' }">
         <UInput v-model="tournament.tournament_name" placeholder="Zadajte názov podujatia" class="w-full" />
       </UFormField>
       <UTable
@@ -203,7 +207,7 @@ const state = reactive<{ file?: File }>({
         variant="solid"
         class="mt-4"
         block
-        :disabled="!tournament.tournament_name || tournament.teams.length === 0"
+        :disabled="!tournament.tournament_name || !tournament.tournament_id || tournament.teams.length === 0"
         @click="createEvent"
       >
         Vytvoriť podujatie
