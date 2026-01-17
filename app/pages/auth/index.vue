@@ -4,6 +4,11 @@ import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui';
 
 const { fetch } = useUserSession();
 
+useSeoMeta({
+  title: 'Prihlásenie',
+  description: 'Prihláste sa do svojho účtu Fastballot zadaním svojho prihlasovacieho mena a hesla.'
+});
+
 /**
  * Login form field configuration
  */

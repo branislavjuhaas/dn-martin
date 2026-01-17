@@ -19,6 +19,21 @@ export default defineNuxtConfig({
     enabled: true
   },
 
+  app: {
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+      titleTemplate: '%s | DN Martin II',
+      title: 'DN',
+      htmlAttrs: {
+        lang: 'sk'
+      },
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ]
+    }
+  },
+
   css: ['~/assets/css/main.css'],
 
   routeRules: {

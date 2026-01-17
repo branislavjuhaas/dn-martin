@@ -8,6 +8,11 @@ definePageMeta({
   middleware: ['auth']
 });
 
+useSeoMeta({
+  title: 'Vytvoriť nové podujatie',
+  description: 'Vytvorte nové debátne podujatie na platforme Fastballot.'
+});
+
 const tournament = ref<TournamentInput>({
   tournament_id: '',
   tournament_name: '',

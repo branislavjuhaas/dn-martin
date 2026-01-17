@@ -11,6 +11,11 @@ definePageMeta({
   middleware: ['auth']
 });
 
+useSeoMeta({
+  title: 'Dashboard',
+  description: 'Prehľad aktuálneho debatného podujatia, registrovaných tímov a členov/-iek.'
+});
+
 const { data } = await useFetch('/api/tournament', {
   method: 'GET'
 });

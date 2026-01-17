@@ -11,6 +11,7 @@ const navItems = ref([
     {
       label: 'Panel správy Fastballot',
       to: 'https://fastballot.sk/admin/index.php',
+      target: '_blank',
       icon: 'ph:nut'
     }
   ],
@@ -32,6 +33,7 @@ const navItems = ref([
   <UFieldGroup>
     <UButton
       to="https://fastballot.sk/profile.php"
+      target="_blank"
       color="neutral"
       variant="outline"
       icon="ph:identification-card"
