@@ -13,7 +13,7 @@ export type User = {
 export type Tournament = {
   id: number;
   tournament_id: string;
-  name: string;
+  tournament_name: string;
   teams: Team[];
 };
 

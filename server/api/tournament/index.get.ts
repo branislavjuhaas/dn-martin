@@ -17,5 +17,5 @@ export default defineEventHandler(async (event) => {
   const tournament = tournamentRows[0] ? (tournamentRows[0] as Tournament) : undefined;
   if (tournament) tournament.teams = teams;
 
-  return { success: true, statusCode: 200, statusMessage: 'OK', data: { tournament } };
+  return { success: true, statusCode: 200, statusMessage: 'OK', tournament };
 });

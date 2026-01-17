@@ -1,75 +1,100 @@
 <script setup lang="ts">
-import * as z from 'zod';
-import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui';
+import { UButton } from '#components';
+import type { Debater } from '#shared/types';
 
-const { fetch } = useUserSession();
-
-const fields: AuthFormField[] = [{
-  name: 'username',
-  type: 'text',
-  label: 'Používateľské meno',
-  placeholder: 'Zadajte svoj email',
-  required: true
-}, {
-  name: 'password',
-  label: 'Heslo',
-  type: 'password',
-  placeholder: 'Zadajte svoje heslo',
-  required: true
-}];
-
-const schema = z.object({
-  username: z.string('Zadajte používateľské meno'),
-  password: z.string('Zadajte heslo')
+const { data } = await useFetch('/api/tournament', {
+  method: 'GET'
 });
 
-type Schema = z.output<typeof schema>;
-
-const error = ref<string | null>(null);
-
-async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  const res = await $fetch<{ success: boolean; statusCode: number; statusMessage?: string }>('/api/auth', {
-    method: 'POST',
-    body: payload.data
-  });
-
-  switch (res.statusCode || 500) {
-    case 200:
-      await fetch();
-      error.value = null;
-      await navigateTo('/');
-      break;
-    case 401:
-      error.value = 'Neplatné prihlasovacie údaje. Skúste to znova.';
-      break;
-    case 403:
-      error.value = 'Váš účet nemá potrebné oprávnenie na prístup.';
-      break;
-    default:
-      error.value = 'Nastala neočakávaná chyba. Skúste to znova neskôr.';
-      break;
+const columns: TableColumn<Payment>[] = [
+  {
+    id: 'expand',
+    cell: ({ row }) =>
+      h(UButton, {
+        'color': 'neutral',
+        'variant': 'ghost',
+        'icon': 'i-lucide-chevron-down',
+        'square': true,
+        'aria-label': 'Expand',
+        'ui': {
+          leadingIcon: [
+            'transition-transform',
+            row.getIsExpanded() ? 'duration-200 rotate-180' : ''
+          ]
+        },
+        'onClick': () => row.toggleExpanded()
+      })
+  },
+  {
+    accessorKey: 'id',
+    header: '#',
+    cell: ({ row }) => `#${row.getValue('id')}`
+  },
+  {
+    accessorKey: 'name',
+    header: 'Názov tímu'
+  },
+  {
+    accessorKey: 'debaters',
+    header: 'Členovia/-ky tímu',
+    cell: ({ row }: { row: any }) => {
+      const debaters = (row.getValue('debaters') ?? []) as Debater[];
+      return Array.isArray(debaters)
+        ? debaters.map(d => `${d.name} ${d.surname}`).join(', ')
+        : String(debaters ?? '');
+    }
   }
-}
+];
+
+const expanded = ref({});
 </script>
 
 <template>
-  <div class="flex flex-col my-auto items-center justify-center gap-4 p-4">
-    <UPageCard class="w-full max-w-md">
-      <UAuthForm
-        :schema="schema"
-        title="Prihlásenie účtom Fastballot"
-        description="Zadajte svoj email a heslo pre prihlásenie"
-        :submit="{ label: 'Prihlásiť sa' }"
-        icon="i-lucide-user"
-        :fields="fields"
-        @submit="onSubmit"
+  <UPageBody>
+    <UContainer>
+      <UBadge color="info" variant="subtle" class="mb-1">
+        Práve prebieha
+      </UBadge>
+      <div class="flex flex-row items-center justify-between gap-4 mb-8">
+        <h1>
+          {{ data?.tournament?.tournament_name }}
+        </h1>
+        <UButton icon="ph:plus-square" color="primary" variant="solid" to="/new">
+          Vytvoriť podujatie
+        </UButton>
+      </div>
+      <UTable
+        v-model:expanded="expanded"
+        :data="data?.tournament?.teams"
+        :columns="columns"
+        :ui="{ tr: 'data-[expanded=true]:bg-elevated/50' }"
+        class="flex-1"
       >
-        <template #validation>
-          <UAlert v-if="error" color="error" icon="ph:exclamation-mark-triangle" class="mb-4">
-            {{ error }}
-          </UAlert>
+        <template #expanded="{ row }">
+          <div class="flex flex-col gap-2">
+            <div v-for="debater in row.getValue('debaters') as Debater[]" :key="debater.id" color="neutral" variant="outline" class="flex flex-row justify-between">
+              <span>{{ debater.name }} {{ debater.surname }}</span> <div class="flex flex-row gap-1">
+                <UButton
+                  square
+                  icon="ph:trash"
+                  size="sm"
+                  variant="ghost"
+                  color="error"
+                  disabled
+                />
+                <UButton
+                  square
+                  icon="ph:pencil-simple"
+                  size="sm"
+                  variant="ghost"
+                  color="info"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
         </template>
-      </UAuthForm>
-    </UPageCard>
-  </div>
+      </UTable>
+    </UContainer>
+  </UPageBody>
 </template>
