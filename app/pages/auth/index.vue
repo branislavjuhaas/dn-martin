@@ -28,12 +28,12 @@ type Schema = z.output<typeof schema>;
 const error = ref<string | null>(null);
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  const res = await $fetch<{ success: boolean; statusCode: number; statusMessage?: string }>('/api/auth', {
+  const result = await $fetch<{ success: boolean; statusCode: number; statusMessage?: string }>('/api/auth', {
     method: 'POST',
     body: payload.data
   });
 
-  switch (res.statusCode || 500) {
+  switch (result.statusCode || 500) {
     case 200:
       await fetch();
       error.value = null;

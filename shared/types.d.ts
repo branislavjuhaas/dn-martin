@@ -17,14 +17,19 @@ export type Tournament = {
   teams: Team[];
 };
 
+export type TournamentInput = {
+  tournament_name: string;
+  teams: Team[];
+};
+
 export type Team = {
-  id: number;
+  id?: number;
   name: string;
   debaters?: Debater[];
 };
 
 export type Debater = {
-  id: number;
+  id?: number;
   team: string;
   name: string;
   surname: string;

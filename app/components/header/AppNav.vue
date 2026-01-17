@@ -4,7 +4,7 @@ const { user, clear } = useUserSession();
 const navItems = ref([
   [
     {
-      label: 'Nové podujatie',
+      label: 'Vytvoriť podujatie',
       to: '/new',
       icon: 'ph:plus-square'
     },
@@ -12,11 +12,17 @@ const navItems = ref([
       label: 'Panel správy Fastballot',
       to: 'https://fastballot.sk/admin/index.php',
       icon: 'ph:nut'
-    },
+    }
+  ],
+  [
     {
       label: 'Odhlásiť sa',
       icon: 'ph:plugs',
-      onSelect: () => clear()
+      color: 'error',
+      onSelect: () => {
+        clear();
+        navigateTo('/auth');
+      }
     }
   ]
 ]);

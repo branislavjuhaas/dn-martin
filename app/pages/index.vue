@@ -3,6 +3,10 @@ import { UButton } from '#components';
 import type { Debater, Team } from '#shared/types';
 import type { TableColumn } from '#ui/components/Table.vue';
 
+definePageMeta({
+  middleware: ['auth']
+});
+
 const { data } = await useFetch('/api/tournament', {
   method: 'GET'
 });
@@ -60,7 +64,7 @@ const expanded = ref({});
         <h1>
           {{ data?.tournament?.tournament_name }}
         </h1>
-        <UButton icon="ph:plus-square" color="primary" variant="solid" to="/new">
+        <UButton icon="ph:plus-square" color="primary" variant="subtle" to="/new">
           Vytvoriť podujatie
         </UButton>
       </div>
@@ -73,7 +77,7 @@ const expanded = ref({});
       >
         <template #expanded="{ row }">
           <div class="flex flex-col gap-2">
-            <div v-for="debater in row.getValue('debaters') as Debater[]" :key="debater.id" color="neutral" variant="outline" class="flex flex-row justify-between">
+            <div v-for="debater in row.getValue('debaters') as Debater[]" :key="debater.id" class="flex flex-row justify-between">
               <span>{{ debater.name }} {{ debater.surname }}</span> <div class="flex flex-row gap-1">
                 <UButton
                   square
