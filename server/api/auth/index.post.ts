@@ -2,23 +2,12 @@ import * as z from 'zod';
 import db from '~~/server/db/db';
 import type { RowDataPacket } from 'mysql2';
 import bcrypt from 'bcryptjs';
+import type { User } from '#shared/types';
 
 const authSchema = z.object({
   username: z.string(),
   password: z.string()
 });
-
-type User = {
-  id: number;
-  username: string;
-  password: string;
-  fullname: string;
-  judgeid: string;
-  email: string | null;
-  adminlvl: number;
-  role: string;
-  created_at: string;
-};
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, authSchema.parse);
