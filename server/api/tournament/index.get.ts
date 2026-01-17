@@ -7,6 +7,9 @@ import type { Debater, Team, Tournament } from '#shared/types';
  * Fetches tournament metadata, teams, and assigns debaters to their respective teams.
  */
 export default defineEventHandler(async (event) => {
+  // Verify the session to ensure authorized access
+  await requireUserSession(event);
+
   // 1. Fetch Debaters
   // Retrieve all debaters, skipping the first row (placeholder/template) usually handled by slice(1)
   const [debaterRows] = await db.query<RowDataPacket[]>('SELECT * FROM debaters');

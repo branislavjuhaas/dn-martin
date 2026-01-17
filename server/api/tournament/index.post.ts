@@ -21,6 +21,9 @@ const tournamentSchema = z.object({
  * Handler to reset and re-populate tournament data (Teams and Debaters)
  */
 export default defineEventHandler(async (event) => {
+  // Verify the session to ensure authorized access
+  await requireUserSession(event);
+
   // 1. Validate Input
   const body = await readValidatedBody(event, tournamentSchema.parse);
 
