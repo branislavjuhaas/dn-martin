@@ -1,13 +1,14 @@
+/**
+ * Middleware to ensure user is logged in before accessing protected routes.
+ */
 export default defineNuxtRouteMiddleware(async () => {
-  // SERVER SIDE
-  if (import.meta.server) {
-    return;
-  }
-
-  // CLIENT SIDE
   const { loggedIn } = useUserSession();
 
-  if (!loggedIn.value) {
+  // If the local state indicates logged in, skip server check
+  if (loggedIn.value) return;
+
+  const { data } = await useFetch('/api/auth/session');
+  if (!data.value?.session?.user) {
     return navigateTo('/auth');
   }
 });
