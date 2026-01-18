@@ -3,10 +3,9 @@ import { AppTextDialog, UButton } from '#components';
 import type { Debater, Team } from '#shared/types';
 import type { TableColumn } from '#ui/components/Table.vue';
 
-const { loggedIn } = useUserSession();
-if (!loggedIn.value) {
-  await navigateTo('/auth');
-}
+definePageMeta({
+  middleware: ['authenticated']
+});
 
 useSeoMeta({
   title: 'Dashboard',
