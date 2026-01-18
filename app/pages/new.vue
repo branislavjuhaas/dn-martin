@@ -4,9 +4,10 @@ import type { Debater, Team, TournamentInput } from '#shared/types';
 import type { TableColumn } from '#ui/components/Table.vue';
 import * as XLSX from 'xlsx';
 
-definePageMeta({
-  middleware: ['auth']
-});
+const { loggedIn } = useUserSession();
+if (!loggedIn.value) {
+  await navigateTo('/auth');
+}
 
 useSeoMeta({
   title: 'Vytvoriť nové podujatie',

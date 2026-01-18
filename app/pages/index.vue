@@ -3,13 +3,10 @@ import { AppTextDialog, UButton } from '#components';
 import type { Debater, Team } from '#shared/types';
 import type { TableColumn } from '#ui/components/Table.vue';
 
-/**
- * Dashboard/Home page.
- * Displays the currently active tournament and its registered teams.
- */
-definePageMeta({
-  middleware: ['auth']
-});
+const { loggedIn } = useUserSession();
+if (!loggedIn.value) {
+  await navigateTo('/auth');
+}
 
 useSeoMeta({
   title: 'Dashboard',
