@@ -14,8 +14,10 @@ useSeoMeta({
 
 const overlay = useOverlay();
 
+const headers = useRequestHeaders();
 const { data, refresh } = await useFetch('/api/tournament', {
-  method: 'GET'
+  method: 'GET',
+  headers
 });
 
 /**
