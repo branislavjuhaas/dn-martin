@@ -7,7 +7,7 @@
 
 ![dn-martin.webp](presentation/dn-martin.webp)
 
-DN Martin is a web application built with [Nuxt](https://nuxt.com) designed to setup and manage tournaments for [FastBallot](https://fastballot.sk). It streamlines the process of tournament organization and integrates directly with FastBallot services.
+DN Martin is a web application built with [Nuxt](https://nuxt.com) designed to setup and manage tournaments for [Fastballot](https://fastballot.sk). It streamlines the process of tournament organization and integrates directly with Fastballot services.
 
 ---
 
