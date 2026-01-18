@@ -1,60 +1,65 @@
-# Nuxt Starter Template
+# DN Martin
 
-[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
+![Version 2.26.2.7](https://img.shields.io/badge/Version-2.26.2.7-blue)
+![MIT License](https://img.shields.io/badge/License-MIT-red)
+![Nuxt](https://img.shields.io/badge/Nuxt-%231D293D?logo=nuxt&logoColor=%2300DC82&link=https%3A%2F%2Fnuxt.com)
+![Nuxt UI](https://img.shields.io/badge/Nuxt%20UI-%23021B23?logo=nuxt&logoColor=%2300DC82&link=https%3A%2F%2Fui.nuxt.com)
 
-Use this template to get started with [Nuxt UI](https://ui.nuxt.com) quickly.
+![dn-martin.webp](presentation/dn-martin.webp)
 
-- [Live demo](https://starter-template.nuxt.dev/)
-- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
+DN Martin is a web application built with [Nuxt](https://nuxt.com) designed to setup and manage tournaments for [FastBallot](https://fastballot.sk). It streamlines the process of tournament organization and integrates directly with FastBallot services.
 
-<a href="https://starter-template.nuxt.dev/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
-    <img alt="Nuxt Starter Template" src="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
-  </picture>
-</a>
+---
 
-> The starter template for Vue is on https://github.com/nuxt-ui-templates/starter-vue.
+## Features
 
-## Quick Start
+- **Tournament Management**: Create and configure debate tournaments.
+- **FastBallot Integration**: Directly connects with FastBallot.sk.
+- **Modern UI**: Built with Nuxt UI for a cleaner and responsive interface.
+- **Authentication**: Secure access using Nuxt Auth Utils.
+- **Data Management**: Import/Export capabilities with XLSX support.
 
-```bash [Terminal]
-npm create nuxt@latest -- -t github:nuxt-ui-templates/starter
-```
+## Tech Stack
 
-## Deploy your own
+- **Framework**: [Nuxt 4](https://nuxt.com)
+- **UI Library**: [Nuxt UI](https://ui.nuxt.com)
+- **Package Manager**: [pnpm](https://pnpm.io)
+- **Database**: MySQL (via `mysql2`)
+- **Authentication**: `nuxt-auth-utils`
+- **Validation**: `zod`
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=starter&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fstarter&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fstarter-dark.png&demo-url=https%3A%2F%2Fstarter-template.nuxt.dev%2F&demo-title=Nuxt%20Starter%20Template&demo-description=A%20minimal%20template%20to%20get%20started%20with%20Nuxt%20UI.)
+## Setup & Development
 
-## Setup
+Make sure you have `pnpm` installed.
 
-Make sure to install the dependencies:
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd dn-martin
+   ```
 
-```bash
-pnpm install
-```
+2. **Install dependencies:**
+   ```bash
+   pnpm install
+   ```
 
-## Development Server
+3. **Start the development server:**
+   ```bash
+   pnpm dev
+   ```
 
-Start the development server on `http://localhost:3000`:
+## CI & Testing
 
-```bash
-pnpm dev
-```
+The project includes Continuous Integration (CI) workflows using GitHub Actions tests to ensure code quality.
 
-## Production
+- **Linting**: `pnpm lint`
+- **Type Checking**: `pnpm typecheck`
 
-Build the application for production:
+## Deployment
 
-```bash
-pnpm build
-```
+This project is configured for **Auto-deploy to Vercel**. Pushes to the main branch are automatically built and deployed.
 
-Locally preview production build:
+## License
 
-```bash
-pnpm preview
-```
+This project is licensed under the [MIT License](LICENSE).
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
