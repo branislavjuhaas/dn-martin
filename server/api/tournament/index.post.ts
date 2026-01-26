@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
 
   // 2. Prepare Data
   const tournament_name = body.tournament_name;
-  const tournament_id = `${body.tournament_id.toUpperCase()}-DN/JU`;
+  const tournament_id = `${body.tournament_id.toUpperCase()}-DNJU`;
 
   // Prepare bulk insert arrays
   const teamValues = body.teams.map(t => [t.name]);
