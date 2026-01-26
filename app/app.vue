@@ -1,6 +1,6 @@
 <script setup>
 import AppHeader from '~/components/header/AppHeader.vue';
-import sk from '@nuxt/ui/locale';
+import { sk } from '@nuxt/ui/locale';
 </script>
 
 <template>
